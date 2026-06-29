@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Do it! Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Do it! monthly metrics</p>
+        <h1>Управленческий дашборд</h1>
+      </div>
+      <div class="topbar-actions">
+        <div class="period-control" aria-label="Период отображения">
+          <button class="chip is-active" data-period="all" type="button">Весь период</button>
+          <button class="chip" data-period="12" type="button">12 мес.</button>
+          <button class="chip" data-period="6" type="button">6 мес.</button>
+          <button class="chip" data-period="1" type="button">Прошлый месяц</button>
+        </div>
+        <button class="primary-button top-action" id="openDataDialog" type="button">Ввод данных</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="kpi-grid" id="kpiGrid" aria-label="Ключевые показатели"></section>
+
+      <section class="insights-band">
+        <div>
+          <p class="section-kicker">Фокус управления</p>
+          <h2>Что стоит смотреть каждый месяц</h2>
+        </div>
+        <div class="insights-grid" id="insightsGrid"></div>
+      </section>
+
+      <section class="chart-layout">
+        <article class="panel chart-panel">
+          <div class="panel-head">
+            <div>
+              <p class="section-kicker">Рост базы</p>
+              <h2>Динамика: пользователи, MAU и подписки</h2>
+            </div>
+            <div class="legend">
+              <span><i class="dot users"></i>Пользователи</span>
+              <span><i class="dot mau"></i>MAU</span>
+              <span><i class="dot subs"></i>Подписки</span>
+            </div>
+          </div>
+          <canvas id="growthChart" height="320"></canvas>
+          <p class="chart-note">Линии нормализованы к собственному максимуму, чтобы сравнивать форму динамики.</p>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-head">
+            <div>
+              <p class="section-kicker">Монетизация</p>
+              <h2>Динамика: доход, MRR и churn</h2>
+            </div>
+            <div class="legend">
+              <span><i class="dot revenue"></i>Доход</span>
+              <span><i class="dot mrr"></i>MRR</span>
+              <span><i class="dot churn"></i>Churn</span>
+            </div>
+          </div>
+          <canvas id="moneyChart" height="320"></canvas>
+          <p class="chart-note">Абсолютные значения смотрите в KPI и помесячной таблице.</p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker">Данные</p>
+            <h2>Помсячная таблица</h2>
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table" id="dataTable"></table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker">Маркетинг</p>
+            <h2>Воронка и окупаемость</h2>
+          </div>
+        </div>
+        <canvas id="marketingChart" height="260"></canvas>
+        <div class="metric-table-wrap">
+          <table class="metric-table" id="marketingTable"></table>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="data-dialog" id="dataDialog">
+      <div class="dialog-card">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker">Ввод данных</p>
+            <h2>Новый месяц</h2>
+          </div>
+          <button class="icon-button" id="closeDataDialog" type="button" aria-label="Закрыть окно ввода">×</button>
+        </div>
+        <form id="monthForm" class="month-form">
+          <label>
+            Месяц
+            <input name="label" type="text" placeholder="Июнь 2026" required>
+          </label>
+          <label>
+            Всего пользователей
+            <input name="totalUsers" type="number" min="0" step="1" required>
+          </label>
+          <label>
+            Новые пользователи
+            <input name="newUsers" type="number" min="0" step="1" required>
+          </label>
+          <label>
+            MAU
+            <input name="mau" type="number" min="0" step="1" required>
+          </label>
+          <label>
+            Активные подписки
+            <input name="activeSubs" type="number" min="0" step="1" required>
+          </label>
+          <label>
+            Отписки
+            <input name="cancellations" type="number" min="0" step="1" required>
+          </label>
+          <label>
+            MRR, $
+            <input name="mrr" type="number" min="0" step="0.01" required>
+          </label>
+          <label>
+            Доход, $
+            <input name="revenue" type="number" min="0" step="0.01" required>
+          </label>
+          <label>
+            Бюджет, $
+            <input name="adSpend" type="number" min="0" step="0.01" value="0">
+          </label>
+          <label>
+            Показы
+            <input name="impressions" type="number" min="0" step="1" value="0">
+          </label>
+          <label>
+            Установки
+            <input name="installs" type="number" min="0" step="1" value="0">
+          </label>
+          <div class="form-actions">
+            <button class="primary-button" type="submit">Добавить месяц</button>
+            <button class="ghost-button" id="resetData" type="button">Сбросить</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
